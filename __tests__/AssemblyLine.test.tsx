@@ -5,7 +5,8 @@ import {
   render,
   within,
 } from "@testing-library/react-native";
-import AssemblyLine from '../src/components/AssemblyLine.component';
+import { AssemblyLine } from "../src/components/AssemblyLine.component";
+
 
 require("util").inspect.defaultOptions.depth = null;
 
