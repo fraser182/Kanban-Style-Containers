@@ -37,12 +37,14 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
     <View style={styles.container}>
 
       <TextInput
+      testID="new-item"
       style={styles.textInput}
         value={inputText}
         onChangeText={handleInputChange}
         placeholder="Enter item"
         />
       <Button
+      testID="add-new-item"
         title="Add Item"
         onPress={handleButtonPress}
         />
@@ -54,7 +56,7 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
         </View>
     
       {stages.map((stage : string, index : number) => (
-        <View key={index} style={styles.stage}>
+        <View key={index} style={styles.stage} testID="stage">
           <Text>{stage}</Text>
           <View >
             {/* Render items for each stage */}
