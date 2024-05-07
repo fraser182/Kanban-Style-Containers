@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 type AssemblyLineProps = {
   stages: string[];
@@ -97,7 +97,7 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
   console.log('items', items)
 
   return (
-    <View>
+    <ScrollView>
     <View style={styles.container}>
 
       <TextInput
@@ -121,20 +121,20 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
     </View>
      {/* Render each stage */}
       {stages.map((stage : string, stageIndex : number) => (
-        <View key={stageIndex} testID="stage">
-          <Text>{stage}</Text>
+        <View key={stageIndex} testID="stage" style={styles.stageContainer}>
+          <Text style={styles.stageHeader}>{stage}</Text>
           <View >
             {/* Render items for each stage */}
             {items[stage.toLowerCase()] &&
               items[stage.toLowerCase()].map((item : string, itemIndex :number) => (
-                <TouchableOpacity testID="item" key={itemIndex} onLongPress={() => moveItemBack(item, stageIndex)} onPress={() => handleMoveItem(item, stageIndex)}>
-                <Text >{item}</Text>
+                <TouchableOpacity style={styles.touchableContainer} testID="item" key={itemIndex} onLongPress={() => moveItemBack(item, stageIndex)} onPress={() => handleMoveItem(item, stageIndex)}>
+                <Text>{item}</Text>
                 </TouchableOpacity>
               ))}
           </View> 
         </View>
       ))}
-    </View>
+    </ScrollView>
     
   );
 };
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 20,
+     marginHorizontal: 10,
     
     
   },
@@ -151,5 +152,24 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     paddingLeft: 8,
-  }
+  },
+  stageContainer: {
+     marginHorizontal: 10,
+    borderWidth:1,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 10, 
+   
+    minHeight: 150
+  },
+  stageHeader:{
+    fontSize: 18,
+    color: 'grey'
+    
+  },
+  touchableContainer:{
+    borderWidth: 1,
+    paddingVertical: 4,
+  },
+ 
   });
