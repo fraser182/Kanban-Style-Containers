@@ -77,5 +77,5 @@ Drag and drop would suit the style
 
 # Troubleshooting
 
-Comments or suggwstions?  <fraser182@icloud.com>
+Comments or suggestions?  <fraser182@icloud.com>
 
