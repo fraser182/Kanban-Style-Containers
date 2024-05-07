@@ -14,10 +14,10 @@ type ItemStateProps = {
 export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
   const [inputText, setInputText] = useState<string>('');
   const [items, setItems] = useState<ItemStateProps>({
-idea: [],
-development: [],
-testing: [],   
-deployment: [],
+    idea: [],
+    development: [],
+    testing: [],   
+    deployment: [],
 });
 
 
@@ -27,25 +27,21 @@ deployment: [],
   };
 
   const handleAddItemPress = () => {
-if (inputText.trim() !== '') {
-addItem(inputText.trim(), stages[0].toLowerCase());
-setInputText('');
-}
-};
+    if (inputText.trim() !== '') {
+      addItem(inputText.trim(), stages[0].toLowerCase());
+      setInputText('');
+      }
+  };
 
 
-const addItem = (itemName, stage) => {
-setItems((prevItems) => {
-const updatedItems = { ...prevItems };
-const updatedStage = [itemName, ...prevItems[stage]]; // Add new item at the beginning
-updatedItems[stage] = updatedStage;
-return updatedItems;
-});
-};
-
-
-
-
+  const addItem = (itemName : string, stage: string) => {
+    setItems((prevItems) => {
+    const updatedItems = { ...prevItems };
+    const updatedStage = [itemName, ...prevItems[stage]]; // Add new item at the beginning
+    updatedItems[stage] = updatedStage;
+    return updatedItems;
+    });
+  };
 
   const handleClearButtonPress = () =>{
     setInputText('');
@@ -78,24 +74,25 @@ return updatedItems;
     }
   };
 
-const moveItemBack = (itemName, stageIndex) => {
-if (stageIndex === 0) {
-return; // Do nothing if already in the first stage
-}
+  const moveItemBack = (itemName : string, stageIndex : number) => {
+    if (stageIndex === 0) {
+      deleteItem(itemName, stageIndex);
+    return;
+  }
 
-const prevStageIndex = stageIndex - 1;
-const prevStage = stages[prevStageIndex].toLowerCase();
-addItemToEnd(itemName, prevStage);
-deleteItem(itemName, stageIndex);
-};
+    const prevStageIndex = stageIndex - 1;
+    const prevStage = stages[prevStageIndex].toLowerCase();
+    addItemToEnd(itemName, prevStage);
+    deleteItem(itemName, stageIndex);
+  };
 
-const addItemToEnd = (itemName, stage) => {
-setItems((prevItems) => {
-const updatedItems = { ...prevItems };
-updatedItems[stage] = [...prevItems[stage], itemName]; // Add new item at the end
-return updatedItems;
-});
-};
+  const addItemToEnd = (itemName: string, stage :string ) => {
+    setItems((prevItems) => {
+    const updatedItems = { ...prevItems };
+    updatedItems[stage] = [...prevItems[stage], itemName]; // Add new item at the end
+    return updatedItems;
+    });
+  };
 
   console.log('items', items)
 
@@ -145,9 +142,8 @@ return updatedItems;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    // flexWrap:'wrap',
-    // justifyContent: 'space-around',
     marginTop: 20,
+    
     
   },
   textInput: {
