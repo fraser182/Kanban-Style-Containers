@@ -94,7 +94,7 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
     });
   };
 
-  console.log('items', items)
+  
 
   return (
     <ScrollView>
