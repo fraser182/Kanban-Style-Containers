@@ -1,34 +1,82 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Touchable, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
 type AssemblyLineProps = {
   stages: string[];
 }
 
+type ItemStateProps = {
+[key: string]: string[];
+}
+
+
 export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
-  const [inputText, setInputText] = useState('');
-  const [items, setItems] = useState({});
+  const [inputText, setInputText] = useState<string>('');
+  const [items, setItems] = useState<ItemStateProps>({
+idea: [],
+development: [],
+testing: [],   
+deployment: [],
+});
+
+
 
   const handleInputChange = (text :string) => {
     setInputText(text);
   };
 
-  const handleButtonPress = () => {
-    if (inputText.trim() !== '') {
-      setItems((prevItems) => ({
-        ...prevItems,
-        idea: [inputText.trim(), ...(prevItems.idea || [])],
-      }));
-      setInputText('');
-    }
+  const handleAddItemPress = () => {
+if (inputText.trim() !== '') {
+addItem(inputText.trim(), stages[0].toLowerCase());
+setInputText('');
+}
+};
+
+
+const addItem = (itemName, stage) => {
+setItems((prevItems) => {
+const updatedItems = { ...prevItems };
+const updatedStage = [itemName, ...prevItems[stage]]; // Add new item at the beginning
+updatedItems[stage] = updatedStage;
+return updatedItems;
+});
+};
+
+
+
+
+
+  const handleClearButtonPress = () =>{
+    setInputText('');
+    setItems({
+    idea: [],
+    development: [],
+    testing: [],
+    deployment: [],
+    })
+  }
+
+  const deleteItem = (itemName, stageIndex) => {
+    setItems((prevItems) => {
+    const updatedItems = { ...prevItems };
+    const stage = stages[stageIndex].toLowerCase();
+    updatedItems[stage] = prevItems[stage].filter(item => item !== itemName);
+    return updatedItems;
+    });
   };
 
-  const handleClearPress = () =>{
-    setInputText('');
-    setItems([])
 
-  }
+  const handleMoveItem = (itemName, stageIndex) => {
+    const nextStageIndex = stageIndex + 1;
+      if (nextStageIndex >= stages.length) {
+        deleteItem(itemName, stageIndex);
+      } else {
+        const nextStage = stages[nextStageIndex].toLowerCase();
+        addItem(itemName, nextStage);
+        deleteItem(itemName, stageIndex);
+    }
+  };
 
   console.log('items', items)
 
@@ -37,38 +85,37 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
     <View style={styles.container}>
 
       <TextInput
-      testID="new-item"
-      style={styles.textInput}
+        testID="new-item"
+        style={styles.textInput}
         value={inputText}
         onChangeText={handleInputChange}
         placeholder="Enter item"
         />
       <Button
-      testID="add-new-item"
+        testID="add-new-item"
         title="Add Item"
-        onPress={handleButtonPress}
+        onPress={handleAddItemPress}
         />
 
- <Button
+      <Button
         title="Clear"
-        onPress={handleClearPress}
+        onPress={handleClearButtonPress}
         />
-        </View>
-    
-      {stages.map((stage : string, index : number) => (
-        <View key={index} style={styles.stage} testID="stage">
+
+    </View>
+     {/* Render each stage */}
+      {stages.map((stage : string, stageIndex : number) => (
+        <View key={stageIndex} testID="stage">
           <Text>{stage}</Text>
           <View >
             {/* Render items for each stage */}
             {items[stage.toLowerCase()] &&
               items[stage.toLowerCase()].map((item : string, itemIndex :number) => (
-                <TouchableOpacity key={itemIndex} onPress={() => null}>
+                <TouchableOpacity testID="item" key={itemIndex} onPress={() => handleMoveItem(item, stageIndex)}>
                 <Text >{item}</Text>
                 </TouchableOpacity>
               ))}
-          </View>
-          {/* Text input and button */}
-          
+          </View> 
         </View>
       ))}
     </View>
