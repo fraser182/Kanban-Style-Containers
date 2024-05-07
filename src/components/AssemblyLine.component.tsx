@@ -57,7 +57,7 @@ return updatedItems;
     })
   }
 
-  const deleteItem = (itemName, stageIndex) => {
+  const deleteItem = (itemName : string, stageIndex: number) => {
     setItems((prevItems) => {
     const updatedItems = { ...prevItems };
     const stage = stages[stageIndex].toLowerCase();
@@ -67,7 +67,7 @@ return updatedItems;
   };
 
 
-  const handleMoveItem = (itemName, stageIndex) => {
+  const handleMoveItem = (itemName : string, stageIndex : number) => {
     const nextStageIndex = stageIndex + 1;
       if (nextStageIndex >= stages.length) {
         deleteItem(itemName, stageIndex);
@@ -77,6 +77,25 @@ return updatedItems;
         deleteItem(itemName, stageIndex);
     }
   };
+
+const moveItemBack = (itemName, stageIndex) => {
+if (stageIndex === 0) {
+return; // Do nothing if already in the first stage
+}
+
+const prevStageIndex = stageIndex - 1;
+const prevStage = stages[prevStageIndex].toLowerCase();
+addItemToEnd(itemName, prevStage);
+deleteItem(itemName, stageIndex);
+};
+
+const addItemToEnd = (itemName, stage) => {
+setItems((prevItems) => {
+const updatedItems = { ...prevItems };
+updatedItems[stage] = [...prevItems[stage], itemName]; // Add new item at the end
+return updatedItems;
+});
+};
 
   console.log('items', items)
 
@@ -111,7 +130,7 @@ return updatedItems;
             {/* Render items for each stage */}
             {items[stage.toLowerCase()] &&
               items[stage.toLowerCase()].map((item : string, itemIndex :number) => (
-                <TouchableOpacity testID="item" key={itemIndex} onPress={() => handleMoveItem(item, stageIndex)}>
+                <TouchableOpacity testID="item" key={itemIndex} onLongPress={() => moveItemBack(item, stageIndex)} onPress={() => handleMoveItem(item, stageIndex)}>
                 <Text >{item}</Text>
                 </TouchableOpacity>
               ))}
