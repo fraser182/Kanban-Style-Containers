@@ -5,6 +5,11 @@ Simple Board design which generates a Kanban board where the items between the c
 Click to move to the next container.
 Long press to move to the previous container.
 
+<img width="327" alt="Screenshot 2024-05-07 at 13 09 25" src="https://github.com/fraser182/challenge2/assets/44373044/b3fdc9ab-bbe8-4604-968d-b406d9ea219e">
+
+
+https://github.com/fraser182/challenge2/assets/44373044/b6f1c29a-0708-4f9c-b7d3-53abc5fb404c
+
 
 
 
