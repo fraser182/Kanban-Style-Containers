@@ -13,12 +13,14 @@ type ItemStateProps = {
 
 export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
   const [inputText, setInputText] = useState<string>('');
-  const [items, setItems] = useState<ItemStateProps>({
-    idea: [],
-    development: [],
-    testing: [],   
-    deployment: [],
+  const [items, setItems] = useState<ItemStateProps>(() => {
+    const initialItems: ItemStateProps = {}
+    stages.forEach((stage) => {
+      initialItems[stage.toLowerCase()] = []
+    })
+    return initialItems
 });
+
 
 
 
@@ -45,11 +47,12 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
 
   const handleClearButtonPress = () =>{
     setInputText('');
-    setItems({
-    idea: [],
-    development: [],
-    testing: [],
-    deployment: [],
+    setItems(() => {
+      const initialItems: ItemStateProps = {}
+    stages.forEach((stage) => {
+      initialItems[stage.toLowerCase()] = []
+    })
+    return initialItems
     })
   }
 
