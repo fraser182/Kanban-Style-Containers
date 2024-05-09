@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 
 type AssemblyLineProps = {
   stages: string[];
@@ -126,21 +126,30 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
       {stages.map((stage : string, stageIndex : number) => (
         <View key={stageIndex} testID="stage" style={styles.stageContainer}>
           <Text style={styles.stageHeader}>{stage}</Text>
-          <View >
-            {/* Render items for each stage */}
-            {items[stage.toLowerCase()] &&
-              items[stage.toLowerCase()].map((item : string, itemIndex :number) => (
-                <TouchableOpacity style={styles.touchableContainer} testID="item" key={itemIndex} onLongPress={() => moveItemBack(item, stageIndex)} onPress={() => handleMoveItem(item, stageIndex)}>
+          <View>
+              <FlatList
+                horizontal
+                data={items[stage.toLowerCase()]}
+                keyExtractor={(item, index) => `${item}-${index}`}
+                renderItem={({ item, index }) => (
+                <TouchableOpacity style={styles.touchableContainer} 
+                testID="item" 
+                key={index}
+                onLongPress={() => moveItemBack(item, stageIndex)} 
+                onPress={() => handleMoveItem(item, stageIndex)}>
                 <Text>{item}</Text>
-                </TouchableOpacity>
-              ))}
+                </TouchableOpacity>)}
+                />
           </View> 
         </View>
       ))}
     </ScrollView>
     
   );
-};
+}
+
+
+
 
 const styles = StyleSheet.create({
   container: {
