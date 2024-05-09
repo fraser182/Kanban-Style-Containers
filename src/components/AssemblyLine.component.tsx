@@ -21,15 +21,12 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
     return initialItems
 });
 
-
-
-
   const handleInputChange = (text :string) => {
     setInputText(text);
   };
 
   const handleAddItemPress = () => {
-    if (inputText.trim() !== '') {
+    if (inputText) {
       addItem(inputText.trim(), stages[0].toLowerCase());
       setInputText('');
       }
@@ -128,7 +125,7 @@ export const AssemblyLine = ({ stages }: AssemblyLineProps) => {
           <Text style={styles.stageHeader}>{stage}</Text>
           <View>
               <FlatList
-                horizontal
+                nestedScrollEnabled
                 data={items[stage.toLowerCase()]}
                 keyExtractor={(item, index) => `${item}-${index}`}
                 renderItem={({ item, index }) => (
